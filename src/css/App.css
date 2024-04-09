@@ -1,0 +1,188 @@
+/* Reset CSS */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Global Styles */
+body {
+  font-family: "Roboto", sans-serif;
+  line-height: 1.6;
+  background-color: #f8f9fa; /* Light gray background */
+  color: #333;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Header */
+.header {
+  background-color: #343a40; /* Dark blue-gray background */
+  color: #fff;
+  padding: 1rem;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Navbar */
+.custom-navbar {
+  background-color: #343a40; /* Dark blue-gray background */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.custom-navbar .brand,
+.custom-navbar .nav-link {
+  color: #fff; /* White text color */
+  font-family: "Roboto", sans-serif; /* Modern font */
+  text-transform: uppercase;
+  transition: color 0.3s ease;
+}
+
+.custom-navbar .brand {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.custom-navbar .nav-link {
+  font-size: 18px;
+  margin-left: 20px;
+}
+
+.custom-navbar .nav-link:hover {
+  color: #007bff; /* Light blue hover color */
+}
+
+/* Main Content */
+.main {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.card {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Buttons */
+.btn {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background-color: #007bff; /* Blue button */
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #0056b3; /* Dark blue hover color */
+}
+
+/* Forms */
+.form-control {
+  margin-bottom: 1rem;
+}
+
+.form-control label {
+  display: block;
+  font-weight: bold;
+}
+
+.form-control input[type="text"],
+.form-control input[type="number"] {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  transition: border-color 0.3s ease;
+}
+
+.form-control input[type="text"]:focus,
+.form-control input[type="number"]:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+/* Loading and Error */
+.loading,
+.error {
+  text-align: center;
+  font-size: 1.2rem;
+  padding: 20px;
+}
+
+/* Clickable Ticker */
+.clickable-ticker:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+/* Top 100 Stocks Scrollbox */
+.stocks-container,
+.favorites-container {
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.list-group-item {
+  padding: 8px 12px;
+  margin-right: 5px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 120px; /* Adjust the width as needed */
+  text-align: center;
+}
+
+.list-group-item:hover {
+  background-color: #f0f0f0;
+  cursor: pointer;
+}
+
+/* Chart CSS */
+.financial-chart-container {
+  position: relative;
+}
+
+.full-screen-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 10;
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.custom-tooltip {
+  background-color: white;
+  border: 1px solid #ccc;
+  padding: 8px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+/* Symbol Link to Yahoo */
+.symbol-link {
+  color: #007bff; /* Blue color */
+  text-decoration: none; 
+  transition: color 0.3s ease; /* Smooth color transition */
+}
+
+.symbol-link:hover {
+  color: #0056b3; /* Darker blue on hover */
+}
