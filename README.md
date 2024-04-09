@@ -41,6 +41,17 @@ Financial Insights is a user-friendly web application built with React that allo
 - The application switches to the Dolt SQL endpoint as a fallback data source when the Alpha Vantage API rate limit is reached or errors occur.
 - This ensures uninterrupted access to financial information, especially in scenarios where the free version of the Alpha Vantage API only allows a limited number of API calls (25 requests per day).
 
+## Running the Application
+To run the Financial Insights application locally, follow these steps:
+
+1. Clone the repository: `git clone https://github.com/TxsharDev/FinancialInsights.git`
+2. Navigate to the project directory: `cd FinancialInsights`
+3. Install dependencies: `npm install`
+4. Obtain an API key from Alpha Vantage and add it to the `.env` file as `REACT_APP_ALPHA_VANTAGE_API_KEY=your_api_key`
+5. Start the development server: `npm start`
+6. Open your browser and visit `http://localhost:3000` to access the application.
+
+
 ## Acknowledgements
 
 - The Financial Insights project utilizes data from the [Alpha Vantage API](https://www.alphavantage.co/) and the [Dolt SQL endpoint](https://www.dolthub.com/).
