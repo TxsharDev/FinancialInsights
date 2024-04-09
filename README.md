@@ -1,5 +1,7 @@
 # Financial Insights - Stock Analysis React Application
 
+![App Preview 1](public/App-Preview1.png)
+
 Financial Insights is a user-friendly web application built with React that allows users to analyze financial data for various stocks. The application offers features such as searching stocks, viewing comprehensive financial data, and saving favorite stocks for quick access.
 
 ## Key Features
@@ -46,3 +48,9 @@ Financial Insights is a user-friendly web application built with React that allo
 ## Contact
 
 For inquiries or feedback regarding the Financial Insights project, please contact the project maintainer at [tas2124@gmail.com](mailto:tas2124@gmail.com).
+
+## App Previews
+
+![App Preview 2](public/App-Preview2.png)
+
+![App Preview 3](public/App-Preview3.png)
