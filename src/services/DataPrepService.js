@@ -1,10 +1,9 @@
 import axios from "axios";
 
-const ALPHA_VANTAGE_API_KEY = process.env.REACT_APP_ALPHA_VANTAGE_API_KEY;
 const ALPHA_VANTAGE_BASE_URL = "https://www.alphavantage.co/query";
 const DOLT_SQL_ENDPOINT = "https://www.dolthub.com/api/v1alpha1/post-no-preference/earnings/master";
 
-class FinancialModelingPrepService {
+class DataPrepService {
   /**
    * Fetches financial data from the specified source (Alpha Vantage API or Dolt SQL endpoint).
    * @param {string} symbol - The stock symbol.
@@ -13,11 +12,17 @@ class FinancialModelingPrepService {
    */
   static async fetchData(symbol, functionName) {
     try {
+      let apiKey = localStorage.getItem("alphaVantageApiKey");
+      if (apiKey.length < 10) {
+          console.log("No API key found in local storage or environment variables. Switching to Dolt SQL endpoint.");
+          return await this.fetchDataFromDolt(symbol, functionName);
+      }
+
       const response = await axios.get(ALPHA_VANTAGE_BASE_URL, {
         params: {
           function: functionName,
           symbol,
-          apikey: ALPHA_VANTAGE_API_KEY,
+          apikey: apiKey,
         },
       });
 
@@ -82,4 +87,4 @@ class FinancialModelingPrepService {
   }
 }
 
-export default FinancialModelingPrepService;
+export default DataPrepService;

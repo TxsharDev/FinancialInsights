@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Row, Col, Button, Card } from "react-bootstrap";
-import FinancialModelingPrepService from "../services/FinancialModelingPrepService";
+import DataPrepService from "../services/DataPrepService";
 import FinancialChart from "./FinancialChart";
 import "../css/App.css";
 
@@ -12,9 +12,10 @@ class FinancialData extends Component {
       loading: true,
       dataSource: "",
       buttonText: "Refresh Data",
+      apiKey: localStorage.getItem("alphaVantageApiKey"),
+      apiKeyValidated: false,
     };
   }
-
   componentDidMount() {
     // Fetch financial data when component mounts
     this.fetchData();
@@ -52,17 +53,30 @@ class FinancialData extends Component {
         dataSource = `Data retrieved from local storage (${symbol})`;
       } else {
         // Otherwise, fetch data from API
-        data = await FinancialModelingPrepService.getFinancialData(symbol);
-        dataSource = "Data fetched from Alpha Vantage API";
-        // Cache fetched data in local storage
-        localStorage.setItem(
-          `financialData_${symbol}_BALANCE_SHEET`,
-          JSON.stringify(data.balanceSheet)
-        );
-        localStorage.setItem(
-          `financialData_${symbol}_INCOME_STATEMENT`,
-          JSON.stringify(data.incomeStatement)
-        );
+        if (localStorage.getItem("alphaVantageApiKey") === "null") {
+          data = await DataPrepService.getFinancialData(symbol);
+          // Cache fetched data in local storage
+          localStorage.setItem(
+            `financialData_${symbol}_BALANCE_SHEET`,
+            JSON.stringify(data.balanceSheet)
+          );
+          localStorage.setItem(
+            `financialData_${symbol}_INCOME_STATEMENT`,
+            JSON.stringify(data.incomeStatement)
+          );
+        } else {
+          data = await DataPrepService.getFinancialData(symbol);
+          dataSource = "Data Source: Data fetched from API Endpoint";
+          // Cache fetched data in local storage
+          localStorage.setItem(
+            `financialData_${symbol}_BALANCE_SHEET`,
+            JSON.stringify(data.balanceSheet)
+          );
+          localStorage.setItem(
+            `financialData_${symbol}_INCOME_STATEMENT`,
+            JSON.stringify(data.incomeStatement)
+          );
+        }
       }
 
       // Update state with fetched data
@@ -88,7 +102,7 @@ class FinancialData extends Component {
     const { symbol } = this.props;
     try {
       this.setState({ loading: true, buttonText: "Loading..." });
-      let data = await FinancialModelingPrepService.getFinancialData(symbol);
+      let data = await DataPrepService.getFinancialData(symbol);
       this.setState({
         financialData: data,
         loading: false,
@@ -108,28 +122,45 @@ class FinancialData extends Component {
   };
 
   renderFinancialData() {
-    const { financialData } = this.state;
-    // Render financial charts if data is available
-    if (financialData && financialData.incomeStatement && financialData.balanceSheet) {
-      return (
-        <>
-          <Row>
-            <Col>
-              <h3>Income Statement Analysis:</h3>
-              <FinancialChart data={financialData.incomeStatement.rows} />
-              <hr />
-              <h3>Balance Sheet Analysis:</h3>
-              <FinancialChart data={financialData.balanceSheet.rows} />
-            </Col>
-          </Row>
-        </>
-      );
+    const { financialData, loading } = this.state;
+    if (loading) {
+      return <div>Loading financial data...</div>;
     }
-    return null;
+
+    if (
+      !financialData ||
+      !financialData.incomeStatement ||
+      !financialData.balanceSheet
+    ) {
+      return <div>No financial data available.</div>;
+    }
+    const incomeStatementData = financialData.incomeStatement.rows;
+    const balanceSheetData = financialData.balanceSheet.rows;
+    return (
+      <>
+        <Row>
+          <Col>
+            <h3>Income Statement Analysis:</h3>
+            {incomeStatementData && incomeStatementData.length > 0 ? (
+              <FinancialChart data={incomeStatementData} />
+            ) : (
+              <div>No income statement data available.</div>
+            )}
+            <hr />
+            <h3>Balance Sheet Analysis:</h3>
+            {balanceSheetData && balanceSheetData.length > 0 ? (
+              <FinancialChart data={balanceSheetData} />
+            ) : (
+              <div>No balance sheet data available.</div>
+            )}
+          </Col>
+        </Row>
+      </>
+    );
   }
 
   render() {
-    const { loading, buttonText } = this.state;
+    const { loading, buttonText, dataSource } = this.state;
     const { symbol, companyName } = this.props;
 
     return (
@@ -150,16 +181,20 @@ class FinancialData extends Component {
                   </a>{" "}
                   - {companyName} Financial Data
                 </h4>
-
                 {/* Refresh button */}
                 <Button
                   variant="primary"
                   onClick={this.handleRefresh}
                   disabled={loading}
-                  className="mr-2"
+                  className="mr-2 mt-2"
                 >
                   {buttonText}
                 </Button>
+
+                {/* Data Source */}
+                <div className="mt-2">
+                  <small>{dataSource}</small>
+                </div>
                 <hr />
               </Col>
             </Row>
